@@ -1,0 +1,3 @@
+#!/bin/bash
+rm doc/*
+nim doc2 -o:./doc/beanstalkd.html beanstalkd.nim
