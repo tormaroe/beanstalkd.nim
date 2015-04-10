@@ -3,6 +3,7 @@
 echo
 echo ---------  CLEANING BUILD DIR  -------------------
 echo
+mkdir -p build
 rm build/*
 
 echo
