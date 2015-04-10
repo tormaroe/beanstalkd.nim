@@ -1,0 +1,16 @@
+#!/bin/bash
+
+echo
+echo ---------  CLEANING BUILD DIR  -------------------
+echo
+rm build/*
+
+echo
+echo ---------  COMPILING NIM EXECUTABLE  -------------
+echo
+nim c -o:./build/beanstalkd beanstalkd.nim
+
+echo
+echo ---------  RUNNING TEST  -------------------------
+echo
+./build/beanstalkd
