@@ -10,7 +10,7 @@
 ## <https://github.com/kr/beanstalkd/blob/master/doc/protocol.txt>`_.
 ##
 ## Job lifecycle
-## -------------
+## =============
 ## A job in beanstalk gets created by a client with the "put" command. During its
 ## life it can be in one of four states: "ready", "reserved", "delayed", or
 ## "buried". After the put command, a job typically starts out ready. It waits in
@@ -22,7 +22,8 @@
 import net, strutils
 
 type
-  Job* = tuple
+  Job* = tuple ## \
+    ##Represents a job retrieved from beanstalkd.
     id: int
     data: string
 
