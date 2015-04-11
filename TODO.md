@@ -1,8 +1,6 @@
 
-* Create vagrant file to set up both nim and beanstalkd
+* More tests and examples
+* Complete README
+* Push doc to github pages
 * Create nimble file and structure
-* Implement the lib and test it
-* Tag git with version number (nimble uses this)
-* Request logo from fiverr
-* Make library site (github pages)
 * Publish package to nim-lang/packages (and test it)
