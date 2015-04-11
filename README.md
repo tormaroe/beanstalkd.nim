@@ -20,7 +20,7 @@ beanstalk.putStr("Top priority job", pri = 1)
 
 let job = s.reserve
 echo job
- #==> (success: true, status: reserved, jobId: 42, job: "Top priority job")
+ #==> (success: true, status: reserved, jobId: 42, job: Top priority job)
 
 let result = beanstalk.delete(job.jobId)
 echo result

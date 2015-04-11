@@ -61,7 +61,7 @@ type
   BeanJob* = tuple
     success: bool
     status: StatusCode
-    jobId: int
+    id: int
     job: string
 
 # -----------------------------------------------------------------------------
@@ -91,8 +91,8 @@ proc getCommonStatusCode(resp: string) : StatusCode =
 proc beanInt(code: StatusCode; value = 0; success = true) : BeanIntResponse =
   (success: success, status: code, value: value)
 
-proc beanJob(code: StatusCode; success = true; jobId = 0; jobData = "") : BeanJob =
-  (success: success, status: code, jobId: jobId, job: jobData)
+proc beanJob(code: StatusCode; success = true; id = 0; jobData = "") : BeanJob =
+  (success: success, status: code, id: id, job: jobData)
 
 proc yamlToSeq(yaml: string) : seq[string] =
   ## NOT a complete YAML parser at all, just method to parse the simple YAML
@@ -175,7 +175,7 @@ proc reserve*(socket: Socket; timeout = -1) : BeanJob =
   let parts = socket.recvLine.split
   result = case parts[0]
     of "RESERVED": StatusCode.reserved.beanJob(
-      jobId = parts[1].parseInt,
+      id = parts[1].parseInt,
       jobData = socket.recvData(parts, 2))
     of "DEADLINE_SOON": StatusCode.deadlineSoon.beanJob(success= false)
     of "TIMED_OUT": StatusCode.timedOut.beanJob(success= false)
@@ -237,13 +237,29 @@ proc kick*(socket: Socket; bound: int) : BeanIntResponse =
     of "KICKED": StatusCode.kicked.beanInt(value= parts[1].parseInt)
     else: getCommonStatusCode(parts[0]).beanInt(success= false)
 
+proc stats*(socket: Socket) : seq[string] =
+  socket.send("stats\r\n")
+  var parts = socket.recvLine().split
+  if parts[0] == "OK":
+    result = socket.recvData(parts, 1).splitLines[1 .. -2]
+
+proc statsTube*(socket: Socket, tube: string) : seq[string] =
+  socket.send("stats-tube $#\r\n" % tube)
+  var parts = socket.recvLine().split
+  if parts[0] == "OK":
+    result = socket.recvData(parts, 1).splitLines[1 .. -2]
+
+proc statsJob*(socket: Socket, id: int) : seq[string] =
+  socket.send("stats-job $#\r\n" % $id)
+  var parts = socket.recvLine().split
+  if parts[0] == "OK":
+    result = socket.recvData(parts, 1).splitLines[1 .. -2]
+
+
 # TODO "peek <id>\r\n" - return job <id>.
 # TODO "peek-ready\r\n" - return the next ready job.
 # TODO "peek-delayed\r\n" - return the delayed job with the shortest delay left.
 # TODO "peek-buried\r\n" - return the next job in the list of buried jobs.
-# TODO "stats-job <id>\r\n"
-# TODO "stats-tube <tube>\r\n"
-# TODO "stats\r\n"
 # TODO "list-tube-used\r\n"
 # TODO "list-tubes-watched\r\n"
 # TODO "quit\r\n"
@@ -269,10 +285,13 @@ when isMainModule:
     let job = s.reserve
     echo job
 
+    echo s.statsJob(job.id)
+    echo s.release(job.id)
 
-    echo s.release(job.jobId)
+    echo s.delete(job.id)
 
-    echo s.delete(job.jobId)
+    echo s.stats
+    echo s.statsTube "default"
 
     echo "done."
 

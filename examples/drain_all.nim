@@ -6,11 +6,11 @@
 # *** DRAINING ALL TUBES ***
 # +++ Watching tube `default` +++
 # (success: true, status: watching, value: 1)
-# (success: true, status: reserved, jobId: 95, job: fooo bar)
+# (success: true, status: reserved, id: 95, job: fooo bar)
 # (success: true, status: deleted)
-# (success: true, status: reserved, jobId: 96, job: fooo bar 2)
+# (success: true, status: reserved, id: 96, job: fooo bar 2)
 # (success: true, status: deleted)
-# (success: false, status: timedOut, jobId: 0, job: )
+# (success: false, status: timedOut, id: 0, job: )
 # *** DONE ***
 
 import beanstalkd, strutils
@@ -27,7 +27,7 @@ while true:
   var job = client.reserve(timeout = 0)
   echo job
   if job.success:
-    echo client.delete(job.jobId)
+    echo client.delete(job.id)
   else:
     break
 
