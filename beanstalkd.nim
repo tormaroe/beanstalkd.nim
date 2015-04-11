@@ -252,7 +252,7 @@ when isMainModule:
   proc test() =
     assert 1 == 1
 
-    var s = open("127.0.0.1")
+    let s = open("127.0.0.1")
     #s.use("foobar")
     s.listTubes()
 
