@@ -14,7 +14,7 @@ How to connect, put, reserve, delete, etc. Refer to docs for details, and to bea
 ```nim
 import beanstalkd
 
-let beanstalk = open("127.0.0.1")
+let beanstalk = beanstalkd.open("127.0.0.1")
 beanstalk.putStr("This is a job")
 beanstalk.putStr("Top priority job", pri = 1)
 

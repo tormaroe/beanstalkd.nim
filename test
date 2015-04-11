@@ -7,9 +7,13 @@ mkdir -p build
 rm build/*
 
 echo
-echo ---------  COMPILING NIM EXECUTABLE  -------------
+echo ---------  COMPILING NIM EXECUTABLES  ------------
 echo
 nim c -o:./build/beanstalkd beanstalkd.nim
+
+cd examples
+nim c -o:./../build/drain_all drain_all.nim
+cd ..
 
 echo
 echo ---------  RUNNING TEST  -------------------------

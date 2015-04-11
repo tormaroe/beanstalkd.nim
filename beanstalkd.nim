@@ -171,7 +171,7 @@ proc reserve*(socket: Socket; timeout = -1) : BeanJob =
   if timeout < 0:
     socket.send("reserve\r\n")
   else:
-    socket.send("result-with-timeout $#\r\n" % $timeout)
+    socket.send("reserve-with-timeout $#\r\n" % $timeout)
   let parts = socket.recvLine.split
   result = case parts[0]
     of "RESERVED": StatusCode.reserved.beanJob(
