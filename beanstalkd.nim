@@ -255,13 +255,22 @@ proc statsJob*(socket: Socket, id: int) : seq[string] =
   if parts[0] == "OK":
     result = socket.recvData(parts, 1).splitLines[1 .. -2]
 
+proc listTubeUsed*(socket: Socket) : string =
+  socket.send("list-tube-used\r\n")
+  var parts = socket.recvLine.split
+  if parts[0] == "USING":
+    result = parts[1]
+
+proc listTubesWatched*(socket: Socket) : seq[string] =
+  socket.send("list-tubes-watched\r\n")
+  var parts = socket.recvLine().split
+  if parts[0] == "OK":
+    result = socket.recvData(parts, 1).yamlToSeq
 
 # TODO "peek <id>\r\n" - return job <id>.
 # TODO "peek-ready\r\n" - return the next ready job.
 # TODO "peek-delayed\r\n" - return the delayed job with the shortest delay left.
 # TODO "peek-buried\r\n" - return the next job in the list of buried jobs.
-# TODO "list-tube-used\r\n"
-# TODO "list-tubes-watched\r\n"
 # TODO "quit\r\n"
 # TODO "pause-tube <tube-name> <delay>\r\n"
 
@@ -276,6 +285,9 @@ when isMainModule:
     let s = open("127.0.0.1")
     #s.use("foobar")
     let tubes = s.listTubes()
+
+    echo s.listTubeUsed
+    echo s.listTubesWatched
 
     for t in tubes:
       echo "TUBE $#" % t
