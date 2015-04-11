@@ -232,6 +232,18 @@ proc kick*(socket: Socket; bound: int) : BeanIntResponse =
     of "KICKED": StatusCode.kicked.beanInt(value= parts[1].parseInt)
     else: getCommonStatusCode(parts[0]).beanInt(success= false)
 
+# TODO "peek <id>\r\n" - return job <id>.
+# TODO "peek-ready\r\n" - return the next ready job.
+# TODO "peek-delayed\r\n" - return the delayed job with the shortest delay left.
+# TODO "peek-buried\r\n" - return the next job in the list of buried jobs.
+# TODO "stats-job <id>\r\n"
+# TODO "stats-tube <tube>\r\n"
+# TODO "stats\r\n"
+# TODO "list-tube-used\r\n"
+# TODO "list-tubes-watched\r\n"
+# TODO "quit\r\n"
+# TODO "pause-tube <tube-name> <delay>\r\n"
+
 # -----------------------------------------------------------------------------
 #  Code below only included if beanstalkd.nim is compiled as an executable.
 # -----------------------------------------------------------------------------
