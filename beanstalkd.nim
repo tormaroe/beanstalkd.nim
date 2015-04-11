@@ -36,12 +36,14 @@ type
     usingOk,
     deadlineSoon,
     timedOut,
+    paused,
     reserved,
     deleted,
     notFound,
     released,
     touched,
     kicked,
+    found,
     watching,
     notIgnored,
     unknownResponse
@@ -86,6 +88,7 @@ proc getCommonStatusCode(resp: string) : StatusCode =
     of "INTERNAL_ERROR": StatusCode.internalError
     of "BAD_FORMAT": StatusCode.badFormat
     of "UNKNOWN_COMMAND": StatusCode.unknownCommand
+    of "NOT_FOUND": StatusCode.notFound
     else: StatusCode.unknownResponse
 
 proc beanInt(code: StatusCode; value = 0; success = true) : BeanIntResponse =
@@ -181,13 +184,51 @@ proc reserve*(socket: Socket; timeout = -1) : BeanJob =
     of "TIMED_OUT": StatusCode.timedOut.beanJob(success= false)
     else: getCommonStatusCode(parts[0]).beanJob(success= false)
 
+proc peek*(socket: Socket; id: int) : BeanJob =
+  socket.send("peek $#\r\n" % $id)
+  let parts = socket.recvLine.split
+  result = case parts[0]
+    of "FOUND": StatusCode.found.beanJob(
+      id = parts[1].parseInt,
+      jobData = socket.recvData(parts, 2))
+    else: getCommonStatusCode(parts[0]).beanJob(success= false)
+
+proc peekReady*(socket: Socket) : BeanJob =
+  socket.send("peek-ready\r\n")
+  let parts = socket.recvLine.split
+  result = case parts[0]
+    of "FOUND": StatusCode.found.beanJob(
+      id = parts[1].parseInt,
+      jobData = socket.recvData(parts, 2))
+    else: getCommonStatusCode(parts[0]).beanJob(success= false)
+
+proc peekDelayed*(socket: Socket) : BeanJob =
+  ## Returns the delayed job with the shortest delay left.
+  socket.send("peek-delayed\r\n")
+  let parts = socket.recvLine.split
+  result = case parts[0]
+    of "FOUND": StatusCode.found.beanJob(
+      id = parts[1].parseInt,
+      jobData = socket.recvData(parts, 2))
+    else: getCommonStatusCode(parts[0]).beanJob(success= false)
+
+proc peekBuried*(socket: Socket) : BeanJob =
+  ## Returns the next job in the list of buried jobs.
+  socket.send("peek-buried\r\n")
+  let parts = socket.recvLine.split
+  result = case parts[0]
+    of "FOUND": StatusCode.found.beanJob(
+      id = parts[1].parseInt,
+      jobData = socket.recvData(parts, 2))
+    else: getCommonStatusCode(parts[0]).beanJob(success= false)
+
+
 proc release*(socket: Socket; id: int; pri = 100; delay = 0) : BeanResponse =
   socket.send("release $# $# $#\r\n" % [$id, $pri, $delay])
   let response = socket.recvLine
   result = case response
     of "RELEASED": (success: true, status: StatusCode.released)
     of "BURIED": (success: false, status: StatusCode.buried)
-    of "NOT_FOUND": (success: false, status: StatusCode.notFound)
     else: (success: false, status: response.getCommonStatusCode)
 
 proc touch*(socket: Socket; id: int) : BeanResponse =
@@ -195,7 +236,6 @@ proc touch*(socket: Socket; id: int) : BeanResponse =
   let response = socket.recvLine
   result = case response
     of "TOUCHED": (success: true, status: StatusCode.touched)
-    of "NOT_FOUND": (success: false, status: StatusCode.notFound)
     else: (success: false, status: response.getCommonStatusCode)
 
 proc delete*(socket: Socket; id: int) : BeanResponse =
@@ -203,7 +243,6 @@ proc delete*(socket: Socket; id: int) : BeanResponse =
   let response = socket.recvLine
   result = case response
     of "DELETED": (success: true, status: StatusCode.deleted)
-    of "NOT_FOUND": (success: false, status: StatusCode.notFound)
     else: (success: false, status: response.getCommonStatusCode)
 
 proc bury*(socket: Socket; id: int, pri = 100) : BeanResponse =
@@ -211,7 +250,6 @@ proc bury*(socket: Socket; id: int, pri = 100) : BeanResponse =
   let response = socket.recvLine
   result = case response
     of "BURIED": (success: true, status: StatusCode.buried)
-    of "NOT_FOUND": (success: false, status: StatusCode.notFound) # TODO NOT_FOUND can be moved into getCommonStatusCode
     else: (success: false, status: response.getCommonStatusCode)
 
 proc kickJob*(socket: Socket; id: int) : BeanResponse =
@@ -219,7 +257,6 @@ proc kickJob*(socket: Socket; id: int) : BeanResponse =
   let response = socket.recvLine
   result = case response
     of "KICKED": (success: true, status: StatusCode.kicked)
-    of "NOT_FOUND": (success: false, status: StatusCode.notFound)
     else: (success: false, status: response.getCommonStatusCode)
 
 proc kick*(socket: Socket; bound: int) : BeanIntResponse =
@@ -239,19 +276,19 @@ proc kick*(socket: Socket; bound: int) : BeanIntResponse =
 
 proc stats*(socket: Socket) : seq[string] =
   socket.send("stats\r\n")
-  var parts = socket.recvLine().split
+  var parts = socket.recvLine.split
   if parts[0] == "OK":
     result = socket.recvData(parts, 1).splitLines[1 .. -2]
 
 proc statsTube*(socket: Socket, tube: string) : seq[string] =
   socket.send("stats-tube $#\r\n" % tube)
-  var parts = socket.recvLine().split
+  var parts = socket.recvLine.split
   if parts[0] == "OK":
     result = socket.recvData(parts, 1).splitLines[1 .. -2]
 
 proc statsJob*(socket: Socket, id: int) : seq[string] =
   socket.send("stats-job $#\r\n" % $id)
-  var parts = socket.recvLine().split
+  var parts = socket.recvLine.split
   if parts[0] == "OK":
     result = socket.recvData(parts, 1).splitLines[1 .. -2]
 
@@ -263,16 +300,19 @@ proc listTubeUsed*(socket: Socket) : string =
 
 proc listTubesWatched*(socket: Socket) : seq[string] =
   socket.send("list-tubes-watched\r\n")
-  var parts = socket.recvLine().split
+  var parts = socket.recvLine.split
   if parts[0] == "OK":
     result = socket.recvData(parts, 1).yamlToSeq
 
-# TODO "peek <id>\r\n" - return job <id>.
-# TODO "peek-ready\r\n" - return the next ready job.
-# TODO "peek-delayed\r\n" - return the delayed job with the shortest delay left.
-# TODO "peek-buried\r\n" - return the next job in the list of buried jobs.
-# TODO "quit\r\n"
-# TODO "pause-tube <tube-name> <delay>\r\n"
+proc pauseTube*(socket: Socket; tube: string; delay: int) : BeanResponse =
+  socket.send("pause-tube $# $#\r\n" % [tube, $delay])
+  let response = socket.recvLine
+  result = case response
+    of "PAUSED": (success: true, status: StatusCode.paused)
+    else: (success: false, status: getCommonStatusCode(response))
+
+proc quit*(socket: Socket) =
+  socket.send("quit\r\n")
 
 # -----------------------------------------------------------------------------
 #  Code below only included if beanstalkd.nim is compiled as an executable.
@@ -297,13 +337,34 @@ when isMainModule:
     let job = s.reserve
     echo job
 
+    echo "PEEK-READY:"
+    echo s.peekReady
+    echo "PEEK-BURIED:"
+    echo s.peekBuried
+
     echo s.statsJob(job.id)
     echo s.release(job.id)
-
+    echo s.peek(job.id)
+    echo s.peek(122)
     echo s.delete(job.id)
+
+    echo "PEEK-READY:"
+    echo s.peekReady
 
     echo s.stats
     echo s.statsTube "default"
+
+    echo "PEEK-DELAYED:"
+    echo s.peekDelayed
+
+    echo s.putStr("a delayed job", delay = 10)
+
+    echo "PEEK-DELAYED:"
+    echo s.peekDelayed
+
+    echo s.pauseTube("default", 10)
+
+    s.quit
 
     echo "done."
 
