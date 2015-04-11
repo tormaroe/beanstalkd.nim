@@ -1170,6 +1170,10 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
     title="open(address: string; port = Port(11300)): Socket"><wbr />open</a></li>
   <li><a class="reference" href="#use,Socket,string"
     title="use(socket: Socket; tube: string): bool"><wbr />use</a></li>
+  <li><a class="reference" href="#watch,Socket,string"
+    title="watch(socket: Socket; tube: string): int"><wbr />watch</a></li>
+  <li><a class="reference" href="#ignore,Socket,string"
+    title="ignore(socket: Socket; tube: string): int"><wbr />ignore</a></li>
   <li><a class="reference" href="#listTubes,Socket"
     title="listTubes(socket: Socket)"><wbr />list<wbr />Tubes</a></li>
   <li><a class="reference" href="#putStr,Socket,string,int,int,int"
@@ -1230,6 +1234,23 @@ Opens a socket to a beanstalkd server.
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
 Used by job producers to specify which tube to put jobs to. By default jobs go to the <tt class="docutils literal"><span class="pre">default</span></tt> tube.
+
+</dd>
+<dt id="watch"><a name="watch,Socket,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">watch</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">tube</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+<p>The &quot;watch&quot; command adds the named tube to the watch list for the current connection. A reserve command will take a job from any of the tubes in the watch list. For each new connection, the watch list initially consists of one tube, named &quot;default&quot;.</p>
+<p><tt class="docutils literal"><span class="pre">tube</span></tt> is a name at most 200 bytes. It specifies a tube to add to the watch list. If the tube doesn't exist, it will be created.</p>
+<p><tt class="docutils literal"><span class="pre">watch</span></tt> returns the integer number of tubes currently in the watch list.</p>
+
+
+</dd>
+<dt id="ignore"><a name="ignore,Socket,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">ignore</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">tube</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+
 
 </dd>
 <dt id="listTubes"><a name="listTubes,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">listTubes</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> 
@@ -1307,7 +1328,7 @@ Reserve and return a job. If no job is available to be reserved but a <tt class=
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small>Made with Nim. Generated: 2015-04-11 10:43:52 UTC</small>
+        <small>Made with Nim. Generated: 2015-04-11 11:06:46 UTC</small>
       </div>
     </div>
   </div>

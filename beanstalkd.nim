@@ -60,6 +60,30 @@ proc use*(socket: Socket; tube: string) : bool =
   var parts = socket.recvLine.split
   result = (parts[0] == "USING")
 
+proc watch*(socket: Socket; tube: string) : int =
+  ## The "watch" command adds the named tube to the watch list for the current
+  ## connection. A reserve command will take a job from any of the tubes in the
+  ## watch list. For each new connection, the watch list initially consists of one
+  ## tube, named "default".
+  ##
+  ## ``tube`` is a name at most 200 bytes. It specifies a tube to add to the watch
+  ## list. If the tube doesn't exist, it will be created.
+  ##
+  ## ``watch`` returns the integer number of tubes currently in the watch list.
+  socket.send("watch " & tube & "\r\n")
+  let response = socket.recvLine.split
+  # response[0] should == "WATCHING"
+  # TODO: Handle exceptional responses
+  result = response[1].parseInt
+
+proc ignore*(socket: Socket; tube: string) : int =
+  socket.send("ignore " & tube & "\r\n")
+  let response = socket.recvLine.split
+  if response[0] == "WATCHING":
+    result = response[1].parseInt
+  else:
+    result = -1
+
 proc listTubes*(socket: Socket) =
   # TODO: Parse YAML and return a seg[string]
   socket.send("list-tubes\r\n")
