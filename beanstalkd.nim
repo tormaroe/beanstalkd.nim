@@ -22,12 +22,47 @@
 import net, strutils
 
 type
-  Job* = tuple ## \
-    ## Represents a job retrieved from beanstalkd.
-    id: int
-    data: string
+  StatusCode* = enum
+    ok,
+    outOfMemory,
+    internalError,
+    badFormat,
+    unknownCommand,
+    inserted,
+    buried,
+    expectedCrLf,
+    jobTooBig,
+    draining,
+    usingOk,
+    deadlineSoon,
+    timedOut,
+    reserved,
+    deleted,
+    notFound,
+    released,
+    touched,
+    kicked,
+    watching,
+    notIgnored,
+    unknownResponse
 
-# TODO: Define and use errors (based on protocol)
+type
+  BeanResponse* = tuple
+    success: bool
+    status: StatusCode
+
+type
+  BeanIntResponse* = tuple
+    success: bool
+    status: StatusCode
+    value: int
+
+type
+  BeanJob* = tuple
+    success: bool
+    status: StatusCode
+    jobId: int
+    job: string
 
 # -----------------------------------------------------------------------------
 #  Private utility stuff ..
@@ -44,6 +79,21 @@ proc recvData(socket: Socket; parts: seq[string]; index: int) : string =
   discard socket.recv(data, parts[index].parseInt)
   result = data
 
+proc getCommonStatusCode(resp: string) : StatusCode =
+  result = case resp
+    of "USING": StatusCode.usingOk
+    of "OUT_OF_MEMORY": StatusCode.outOfMemory
+    of "INTERNAL_ERROR": StatusCode.internalError
+    of "BAD_FORMAT": StatusCode.badFormat
+    of "UNKNOWN_COMMAND": StatusCode.unknownCommand
+    else: StatusCode.unknownResponse
+
+proc beanInt(code: StatusCode; value = 0; success = true) : BeanIntResponse =
+  (success: success, status: code, value: value)
+
+proc beanJob(code: StatusCode; success = true; jobId = 0; jobData = "") : BeanJob =
+  (success: success, status: code, jobId: jobId, job: jobData)
+
 # -----------------------------------------------------------------------------
 #  .. end private utility stuff
 # -----------------------------------------------------------------------------
@@ -53,14 +103,16 @@ proc open*(address: string; port = Port(11300)) : Socket =
   result = newSocket()
   result.connect(address, port)
 
-proc use*(socket: Socket; tube: string) : bool =
+proc use*(socket: Socket; tube: string) : BeanResponse =
   ## Used by job producers to specify which tube to put jobs to.
   ## By default jobs go to the ``default`` tube.
   socket.send("use " & tube & "\r\n")
   var parts = socket.recvLine.split
-  result = (parts[0] == "USING")
+  result = case parts[0]
+    of "USING": (success: true, status: StatusCode.usingOk)
+    else: (success: false, status: getCommonStatusCode(parts[0]))
 
-proc watch*(socket: Socket; tube: string) : int =
+proc watch*(socket: Socket; tube: string) : BeanIntResponse =
   ## The "watch" command adds the named tube to the watch list for the current
   ## connection. A reserve command will take a job from any of the tubes in the
   ## watch list. For each new connection, the watch list initially consists of one
@@ -72,17 +124,17 @@ proc watch*(socket: Socket; tube: string) : int =
   ## ``watch`` returns the integer number of tubes currently in the watch list.
   socket.send("watch " & tube & "\r\n")
   let response = socket.recvLine.split
-  # response[0] should == "WATCHING"
-  # TODO: Handle exceptional responses
-  result = response[1].parseInt
+  result = case response[0]
+    of "WATCHING": StatusCode.watching.beanInt(value= response[1].parseInt)
+    else: getCommonStatusCode(response[0]).beanInt(success= false)
 
-proc ignore*(socket: Socket; tube: string) : int =
+proc ignore*(socket: Socket; tube: string) : BeanIntResponse =
   socket.send("ignore " & tube & "\r\n")
   let response = socket.recvLine.split
-  if response[0] == "WATCHING":
-    result = response[1].parseInt
-  else:
-    result = -1
+  result = case response[0]
+    of "WATCHING": StatusCode.watching.beanInt(value= response[1].parseInt)
+    of "NOT_IGNORED": StatusCode.notIgnored.beanInt(success= false)
+    else: getCommonStatusCode(response[0]).beanInt(success= false)
 
 proc listTubes*(socket: Socket) =
   # TODO: Parse YAML and return a seg[string]
@@ -94,16 +146,19 @@ proc listTubes*(socket: Socket) =
   else:
     echo "UNABLE TO LIST TUBES"
 
-proc putStr*(socket: Socket; data: string; pri = 100; delay = 0; ttr = 5) : int =
+proc putStr*(socket: Socket; data: string; pri = 100; delay = 0; ttr = 5) : BeanIntResponse =
   let command = "put $# $# $# $#\r\n$#\r\n" % [$pri, $delay, $ttr, $(data.len), data]
   socket.send(command)
   let parts = socket.recvLine.split
-  if parts[0] == "INSERTED":
-    result = parts[1].parseInt
-  else:
-    result = -1
+  result = case parts[0]
+    of "INSERTED": StatusCode.inserted.beanInt(value= parts[1].parseInt)
+    of "BURIED": StatusCode.buried.beanInt(value= parts[1].parseInt)
+    of "EXPECTED_CRLF": StatusCode.expectedCrLf.beanInt(success= false)
+    of "JOB_TOO_BIG": StatusCode.jobTooBig.beanInt(success= false)
+    of "DRAINING": StatusCode.draining.beanInt(success= false)
+    else: getCommonStatusCode(parts[0]).beanInt(success= false)
 
-proc reserve*(socket: Socket; timeout = -1) : Job =
+proc reserve*(socket: Socket; timeout = -1) : BeanJob =
   ## Reserve and return a job. If no job is available to be reserved but
   ## a ``timeout > 0`` is specified, reserve will block and wait the specified
   ## amount of seconds or until a job becomes available.
@@ -113,37 +168,56 @@ proc reserve*(socket: Socket; timeout = -1) : Job =
   else:
     socket.send("result-with-timeout $#\r\n" % $timeout)
   let parts = socket.recvLine.split
-  if parts[0] == "RESERVED":
-    var data = socket.recvData(parts, 2)
-    result = (id: parts[1].parseInt, data: data)
-  else:
-    result = (id: -1, data: "")
+  result = case parts[0]
+    of "RESERVED": StatusCode.reserved.beanJob(
+      jobId = parts[1].parseInt,
+      jobData = socket.recvData(parts, 2))
+    of "DEADLINE_SOON": StatusCode.deadlineSoon.beanJob(success= false)
+    of "TIMED_OUT": StatusCode.timedOut.beanJob(success= false)
+    else: getCommonStatusCode(parts[0]).beanJob(success= false)
 
-proc release*(socket: Socket; id: int; pri = 100; delay = 0) : bool =
+proc release*(socket: Socket; id: int; pri = 100; delay = 0) : BeanResponse =
   socket.send("release $# $# $#\r\n" % [$id, $pri, $delay])
   let response = socket.recvLine
-  if response == "RELEASED":
-    result = true
-  else:
-    result = false
+  result = case response
+    of "RELEASED": (success: true, status: StatusCode.released)
+    of "BURIED": (success: false, status: StatusCode.buried)
+    of "NOT_FOUND": (success: false, status: StatusCode.notFound)
+    else: (success: false, status: response.getCommonStatusCode)
 
-proc touch*(socket: Socket; id: int) : bool =
+proc touch*(socket: Socket; id: int) : BeanResponse =
   socket.send("touch $#\r\n" % $id)
-  result = (socket.recvLine == "TOUCHED")
+  let response = socket.recvLine
+  result = case response
+    of "TOUCHED": (success: true, status: StatusCode.touched)
+    of "NOT_FOUND": (success: false, status: StatusCode.notFound)
+    else: (success: false, status: response.getCommonStatusCode)
 
-proc delete*(socket: Socket; id: int) : bool =
+proc delete*(socket: Socket; id: int) : BeanResponse =
   socket.send("delete $#\r\n" % $id)
-  result = (socket.recvLine == "DELETED")
+  let response = socket.recvLine
+  result = case response
+    of "DELETED": (success: true, status: StatusCode.deleted)
+    of "NOT_FOUND": (success: false, status: StatusCode.notFound)
+    else: (success: false, status: response.getCommonStatusCode)
 
-proc bury*(socket: Socket; id: int, pri = 100) : bool =
+proc bury*(socket: Socket; id: int, pri = 100) : BeanResponse =
   socket.send("bury $# $#\r\n" % [$id, $pri])
-  result = (socket.recvLine == "BURIED")
+  let response = socket.recvLine
+  result = case response
+    of "BURIED": (success: true, status: StatusCode.buried)
+    of "NOT_FOUND": (success: false, status: StatusCode.notFound) # TODO NOT_FOUND can be moved into getCommonStatusCode
+    else: (success: false, status: response.getCommonStatusCode)
 
-proc kickJob*(socket: Socket; id: int) : bool =
+proc kickJob*(socket: Socket; id: int) : BeanResponse =
   socket.send("kick-job $#\r\n" % $id)
-  result = (socket.recvLine == "KICKED")
+  let response = socket.recvLine
+  result = case response
+    of "KICKED": (success: true, status: StatusCode.kicked)
+    of "NOT_FOUND": (success: false, status: StatusCode.notFound)
+    else: (success: false, status: response.getCommonStatusCode)
 
-proc kick*(socket: Socket; bound: int) : int =
+proc kick*(socket: Socket; bound: int) : BeanIntResponse =
   ## The kick command applies only to the currently used tube. It moves jobs into
   ## the ready queue. If there are any buried jobs, it will only kick buried jobs.
   ## Otherwise it will kick delayed jobs.
@@ -153,10 +227,10 @@ proc kick*(socket: Socket; bound: int) : int =
   ##
   ## ``kick`` returns an integer indicating the number of jobs actually kicked.
   socket.send("kick $#\r\n" % $bound)
-  let response = socket.recvLine.split
-  # response[0] should == "KICKED"
-  # TODO: Handle exceptional responses
-  result = response[1].parseInt
+  let parts = socket.recvLine.split
+  result = case parts[0]
+    of "KICKED": StatusCode.kicked.beanInt(value= parts[1].parseInt)
+    else: getCommonStatusCode(parts[0]).beanInt(success= false)
 
 # -----------------------------------------------------------------------------
 #  Code below only included if beanstalkd.nim is compiled as an executable.
@@ -173,13 +247,12 @@ when isMainModule:
     echo s.putStr("foo")
 
     let job = s.reserve
-    job.id.`$`.echo
-    echo job.data
+    echo job
 
 
-    echo s.release(job.id)
+    echo s.release(job.jobId)
 
-    echo s.delete(job.id)
+    echo s.delete(job.jobId)
 
     echo "done."
 
