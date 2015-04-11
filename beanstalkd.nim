@@ -27,12 +27,15 @@ type
     id: int
     data: string
 
-const
-  ok = "OK"
+# TODO: Define and use errors (based on protocol)
 
-proc recvLine(socket: Socket; skipLines = 0) : string =
+# -----------------------------------------------------------------------------
+#  Private utility stuff ..
+# -----------------------------------------------------------------------------
+
+proc recvLine(socket: Socket) : string =
   var data: TaintedString = ""
-  for x in 0 .. skipLines:
+  while data == "" or data == "\r\n": # TODO: Hack or not? A bit dangerous.
     socket.readLine(data)
   result = data
 
@@ -41,36 +44,40 @@ proc recvData(socket: Socket; parts: seq[string]; index: int) : string =
   discard socket.recv(data, parts[index].parseInt)
   result = data
 
+# -----------------------------------------------------------------------------
+#  .. end private utility stuff
+# -----------------------------------------------------------------------------
+
 proc open*(address: string; port = Port(11300)) : Socket =
   ## Opens a socket to a beanstalkd server.
   result = newSocket()
   result.connect(address, port)
 
-proc use*(socket: Socket; tube: string) =
+proc use*(socket: Socket; tube: string) : bool =
+  ## Used by job producers to specify which tube to put jobs to.
+  ## By default jobs go to the ``default`` tube.
   socket.send("use " & tube & "\r\n")
   var parts = socket.recvLine.split
-  if parts[0] == "USING":
-    echo "Now using " & parts[1]
-  else:
-    echo "Using did not work!"
+  result = (parts[0] == "USING")
 
 proc listTubes*(socket: Socket) =
+  # TODO: Parse YAML and return a seg[string]
   socket.send("list-tubes\r\n")
   var parts = socket.recvLine().split
-  if parts[0] == ok:
+  if parts[0] == "OK":
     var data = socket.recvData(parts, 1)
     echo data
   else:
-    echo "NOT OK!!"
+    echo "UNABLE TO LIST TUBES"
 
 proc putStr*(socket: Socket; data: string; pri = 100; delay = 0; ttr = 5) : int =
   let command = "put $# $# $# $#\r\n$#\r\n" % [$pri, $delay, $ttr, $(data.len), data]
   socket.send(command)
-  let parts = socket.recvLine(skipLines = 1).split
+  let parts = socket.recvLine.split
   if parts[0] == "INSERTED":
     result = parts[1].parseInt
   else:
-    result = 0
+    result = -1
 
 proc reserve*(socket: Socket; timeout = -1) : Job =
   ## Reserve and return a job. If no job is available to be reserved but
@@ -88,9 +95,21 @@ proc reserve*(socket: Socket; timeout = -1) : Job =
   else:
     result = (id: -1, data: "")
 
+proc release*(socket: Socket; id: int; pri = 100; delay = 0) : bool =
+  socket.send("release $# $# $#\r\n" % [$id, $pri, $delay])
+  let response = socket.recvLine
+  if response == "RELEASED":
+    result = true
+  else:
+    result = false
+
 proc delete*(socket: Socket; id: int) : bool =
   socket.send("delete $#\r\n" % $id)
-  result = (socket.recvLine(skipLines = 1) == "DELETED")
+  result = (socket.recvLine == "DELETED")
+
+# -----------------------------------------------------------------------------
+#  Code below only included if beanstalkd.nim is compiled as an executable.
+# -----------------------------------------------------------------------------
 
 when isMainModule:
   proc test() =
@@ -105,6 +124,9 @@ when isMainModule:
     let job = s.reserve
     job.id.`$`.echo
     echo job.data
+
+
+    echo s.release(job.id)
 
     echo s.delete(job.id)
 
