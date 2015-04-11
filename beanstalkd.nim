@@ -23,12 +23,23 @@ import net, strutils
 
 type
   Job* = tuple ## \
-    ##Represents a job retrieved from beanstalkd.
+    ## Represents a job retrieved from beanstalkd.
     id: int
     data: string
 
 const
   ok = "OK"
+
+proc recvLine(socket: Socket; skipLines = 0) : string =
+  var data: TaintedString = ""
+  for x in 0 .. skipLines:
+    socket.readLine(data)
+  result = data
+
+proc recvData(socket: Socket; parts: seq[string]; index: int) : string =
+  var data: TaintedString = ""
+  discard socket.recv(data, parts[index].parseInt)
+  result = data
 
 proc open*(address: string; port = Port(11300)) : Socket =
   ## Opens a socket to a beanstalkd server.
@@ -37,9 +48,7 @@ proc open*(address: string; port = Port(11300)) : Socket =
 
 proc use*(socket: Socket; tube: string) =
   socket.send("use " & tube & "\r\n")
-  var data: TaintedString = ""
-  socket.readLine(data)
-  var parts = data.split
+  var parts = socket.recvLine.split
   if parts[0] == "USING":
     echo "Now using " & parts[1]
   else:
@@ -47,11 +56,9 @@ proc use*(socket: Socket; tube: string) =
 
 proc listTubes*(socket: Socket) =
   socket.send("list-tubes\r\n")
-  var data: TaintedString = ""
-  socket.readLine(data)
-  var parts = data.split
+  var parts = socket.recvLine().split
   if parts[0] == ok:
-    discard socket.recv(data, parts[1].parseInt)
+    var data = socket.recvData(parts, 1)
     echo data
   else:
     echo "NOT OK!!"
@@ -59,10 +66,7 @@ proc listTubes*(socket: Socket) =
 proc putStr*(socket: Socket; data: string; pri = 100; delay = 0; ttr = 5) : int =
   let command = "put $# $# $# $#\r\n$#\r\n" % [$pri, $delay, $ttr, $(data.len), data]
   socket.send(command)
-  var data: TaintedString = ""
-  socket.readLine(data) # not sure why I need this ?!?!
-  socket.readLine(data)
-  let parts = data.split
+  let parts = socket.recvLine(skipLines = 1).split
   if parts[0] == "INSERTED":
     result = parts[1].parseInt
   else:
@@ -77,27 +81,16 @@ proc reserve*(socket: Socket; timeout = -1) : Job =
     socket.send("reserve\r\n")
   else:
     socket.send("result-with-timeout $#\r\n" % $timeout)
-  var data: TaintedString = ""
-  socket.readLine(data)
-  let parts = data.split
+  let parts = socket.recvLine.split
   if parts[0] == "RESERVED":
-    echo "Reserved job #" & parts[1]
-    discard socket.recv(data, parts[2].parseInt)
+    var data = socket.recvData(parts, 2)
     result = (id: parts[1].parseInt, data: data)
   else:
-    echo "NO Reserve today"
     result = (id: -1, data: "")
 
 proc delete*(socket: Socket; id: int) : bool =
   socket.send("delete $#\r\n" % $id)
-  var data: TaintedString = ""
-  socket.readLine(data) # not sure why I need this ?!?!
-  socket.readLine(data)
-  if data == "DELETED":
-    result = true
-  else:
-    result = false
-
+  result = (socket.recvLine(skipLines = 1) == "DELETED")
 
 when isMainModule:
   proc test() =
