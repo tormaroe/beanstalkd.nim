@@ -94,6 +94,15 @@ proc beanInt(code: StatusCode; value = 0; success = true) : BeanIntResponse =
 proc beanJob(code: StatusCode; success = true; jobId = 0; jobData = "") : BeanJob =
   (success: success, status: code, jobId: jobId, job: jobData)
 
+proc yamlToSeq(yaml: string) : seq[string] =
+  ## NOT a complete YAML parser at all, just method to parse the simple YAML
+  ## lists returned by beanstalkd.
+  result = @[]
+  for line in yaml.splitLines:
+    if line.startsWith "- ":
+      result.add line[2 .. -1]
+
+
 # -----------------------------------------------------------------------------
 #  .. end private utility stuff
 # -----------------------------------------------------------------------------
@@ -136,15 +145,11 @@ proc ignore*(socket: Socket; tube: string) : BeanIntResponse =
     of "NOT_IGNORED": StatusCode.notIgnored.beanInt(success= false)
     else: getCommonStatusCode(response[0]).beanInt(success= false)
 
-proc listTubes*(socket: Socket) =
-  # TODO: Parse YAML and return a seg[string]
+proc listTubes*(socket: Socket) : seq[string] =
   socket.send("list-tubes\r\n")
   var parts = socket.recvLine().split
   if parts[0] == "OK":
-    var data = socket.recvData(parts, 1)
-    echo data
-  else:
-    echo "UNABLE TO LIST TUBES"
+    result = socket.recvData(parts, 1).yamlToSeq
 
 proc putStr*(socket: Socket; data: string; pri = 100; delay = 0; ttr = 5) : BeanIntResponse =
   let command = "put $# $# $# $#\r\n$#\r\n" % [$pri, $delay, $ttr, $(data.len), data]
@@ -254,7 +259,10 @@ when isMainModule:
 
     let s = open("127.0.0.1")
     #s.use("foobar")
-    s.listTubes()
+    let tubes = s.listTubes()
+
+    for t in tubes:
+      echo "TUBE $#" % t
 
     echo s.putStr("foo")
 
