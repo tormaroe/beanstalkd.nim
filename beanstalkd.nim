@@ -105,6 +105,19 @@ proc yamlToSeq(yaml: string) : seq[string] =
     if line.startsWith "- ":
       result.add line[2 .. -1]
 
+proc recvStats(socket: Socket) : seq[string] =
+  var parts = socket.recvLine.split
+  if parts[0] == "OK":
+    result = socket.recvData(parts, 1).splitLines[1 .. -2]
+
+proc recvFoundJob(socket: Socket) : BeanJob =
+  let parts = socket.recvLine.split
+  result = case parts[0]
+    of "FOUND": StatusCode.found.beanJob(
+      id = parts[1].parseInt,
+      jobData = socket.recvData(parts, 2))
+    else: getCommonStatusCode(parts[0]).beanJob(success= false)
+
 
 # -----------------------------------------------------------------------------
 #  .. end private utility stuff
@@ -186,42 +199,21 @@ proc reserve*(socket: Socket; timeout = -1) : BeanJob =
 
 proc peek*(socket: Socket; id: int) : BeanJob =
   socket.send("peek $#\r\n" % $id)
-  let parts = socket.recvLine.split
-  result = case parts[0]
-    of "FOUND": StatusCode.found.beanJob(
-      id = parts[1].parseInt,
-      jobData = socket.recvData(parts, 2))
-    else: getCommonStatusCode(parts[0]).beanJob(success= false)
+  result = socket.recvFoundJob
 
 proc peekReady*(socket: Socket) : BeanJob =
   socket.send("peek-ready\r\n")
-  let parts = socket.recvLine.split
-  result = case parts[0]
-    of "FOUND": StatusCode.found.beanJob(
-      id = parts[1].parseInt,
-      jobData = socket.recvData(parts, 2))
-    else: getCommonStatusCode(parts[0]).beanJob(success= false)
+  result = socket.recvFoundJob
 
 proc peekDelayed*(socket: Socket) : BeanJob =
   ## Returns the delayed job with the shortest delay left.
   socket.send("peek-delayed\r\n")
-  let parts = socket.recvLine.split
-  result = case parts[0]
-    of "FOUND": StatusCode.found.beanJob(
-      id = parts[1].parseInt,
-      jobData = socket.recvData(parts, 2))
-    else: getCommonStatusCode(parts[0]).beanJob(success= false)
+  result = socket.recvFoundJob
 
 proc peekBuried*(socket: Socket) : BeanJob =
   ## Returns the next job in the list of buried jobs.
   socket.send("peek-buried\r\n")
-  let parts = socket.recvLine.split
-  result = case parts[0]
-    of "FOUND": StatusCode.found.beanJob(
-      id = parts[1].parseInt,
-      jobData = socket.recvData(parts, 2))
-    else: getCommonStatusCode(parts[0]).beanJob(success= false)
-
+  result = socket.recvFoundJob
 
 proc release*(socket: Socket; id: int; pri = 100; delay = 0) : BeanResponse =
   socket.send("release $# $# $#\r\n" % [$id, $pri, $delay])
@@ -276,21 +268,15 @@ proc kick*(socket: Socket; bound: int) : BeanIntResponse =
 
 proc stats*(socket: Socket) : seq[string] =
   socket.send("stats\r\n")
-  var parts = socket.recvLine.split
-  if parts[0] == "OK":
-    result = socket.recvData(parts, 1).splitLines[1 .. -2]
+  result = socket.recvStats
 
 proc statsTube*(socket: Socket, tube: string) : seq[string] =
   socket.send("stats-tube $#\r\n" % tube)
-  var parts = socket.recvLine.split
-  if parts[0] == "OK":
-    result = socket.recvData(parts, 1).splitLines[1 .. -2]
+  result = socket.recvStats
 
 proc statsJob*(socket: Socket, id: int) : seq[string] =
   socket.send("stats-job $#\r\n" % $id)
-  var parts = socket.recvLine.split
-  if parts[0] == "OK":
-    result = socket.recvData(parts, 1).splitLines[1 .. -2]
+  result = socket.recvStats
 
 proc listTubeUsed*(socket: Socket) : string =
   socket.send("list-tube-used\r\n")
