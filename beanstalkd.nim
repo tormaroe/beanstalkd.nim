@@ -103,9 +103,36 @@ proc release*(socket: Socket; id: int; pri = 100; delay = 0) : bool =
   else:
     result = false
 
+proc touch*(socket: Socket; id: int) : bool =
+  socket.send("touch $#\r\n" % $id)
+  result = (socket.recvLine == "TOUCHED")
+
 proc delete*(socket: Socket; id: int) : bool =
   socket.send("delete $#\r\n" % $id)
   result = (socket.recvLine == "DELETED")
+
+proc bury*(socket: Socket; id: int, pri = 100) : bool =
+  socket.send("bury $# $#\r\n" % [$id, $pri])
+  result = (socket.recvLine == "BURIED")
+
+proc kickJob*(socket: Socket; id: int) : bool =
+  socket.send("kick-job $#\r\n" % $id)
+  result = (socket.recvLine == "KICKED")
+
+proc kick*(socket: Socket; bound: int) : int =
+  ## The kick command applies only to the currently used tube. It moves jobs into
+  ## the ready queue. If there are any buried jobs, it will only kick buried jobs.
+  ## Otherwise it will kick delayed jobs.
+  ##
+  ## ``bound`` is an integer upper bound on the number of jobs to kick. The server
+  ## will kick no more than ``bound`` jobs.
+  ##
+  ## ``kick`` returns an integer indicating the number of jobs actually kicked.
+  socket.send("kick $#\r\n" % $bound)
+  let response = socket.recvLine.split
+  # response[0] should == "KICKED"
+  # TODO: Handle exceptional responses
+  result = response[1].parseInt
 
 # -----------------------------------------------------------------------------
 #  Code below only included if beanstalkd.nim is compiled as an executable.
