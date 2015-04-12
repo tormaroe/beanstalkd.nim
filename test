@@ -12,6 +12,9 @@ nim c -o:./../build/two_step_pipeline two_step_pipeline.nim
 nim c -o:./../build/two_step_pipeline_concurrent \
       --threads:on \
       two_step_pipeline_concurrent.nim
+nim c -o:./../build/two_step_pipeline_parallel \
+      --threads:on \
+      two_step_pipeline_parallel.nim
 cd ..
 
 echo ---------  RUNNING EXAMPLES  ---------------------
@@ -31,3 +34,7 @@ time ./build/two_step_pipeline
 echo
 echo Running example: Two step pipeline concurrent
 time ./build/two_step_pipeline_concurrent
+
+echo
+echo Running example: Two step pipeline parallel
+time ./build/two_step_pipeline_parallel
