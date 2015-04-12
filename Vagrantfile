@@ -16,7 +16,7 @@ wget http://nim-lang.org/download/nim-0.10.2.zip
 unzip nim-0.10.2.zip
 cd nim-0.10.2
 sh build.sh
-ln -s bin/nim /usr/bin/nim
+ln -s /home/vagrant/nim-0.10.2/bin/nim /usr/bin/nim
 cd ~
 
 git clone https://github.com/nim-lang/nimble.git

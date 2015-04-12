@@ -1,4 +1,5 @@
 #!/bin/bash
+
 mkdir -p doc
 rm doc/*
 nim doc2 -o:./doc/beanstalkd.html beanstalkd.nim
