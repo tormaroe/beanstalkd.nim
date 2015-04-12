@@ -7,7 +7,9 @@ Status: Beta, ready for experimental usage, may not be production ready.
 
 ## Installation
 
-TODO: How to install with nimble (it's not in nimble yet) ...
+Install this library using the [nimble](https://github.com/nim-lang/nimble) package manager:
+
+    nimble install beanstalkd
 
 ## Usage
 
