@@ -9,6 +9,9 @@ cd examples
 nim c -o:./../build/drain_all drain_all.nim
 nim c -o:./../build/produce_and_consume produce_and_consume.nim
 nim c -o:./../build/two_step_pipeline two_step_pipeline.nim
+nim c -o:./../build/two_step_pipeline_concurrent \
+      --threads:on \
+      two_step_pipeline_concurrent.nim
 cd ..
 
 echo ---------  RUNNING EXAMPLES  ---------------------
@@ -24,3 +27,7 @@ time ./build/produce_and_consume
 echo
 echo Running example: Two step pipeline
 time ./build/two_step_pipeline
+
+echo
+echo Running example: Two step pipeline concurrent
+time ./build/two_step_pipeline_concurrent
