@@ -5,6 +5,15 @@ import beanstalkd, strutils, threadpool
 
 # Same example as produce_and_consume.nim, except that all three steps
 # of the process happens in their own threads.
+#
+# Note: compile with --threads:on
+#
+# Output will be:
+#
+#     All threads spawned
+#     produceNumbers done
+#     consumeA done
+#     The sum of all multiples of 3 and 5 is 233168
 
 proc produceNumbers() =
   let client = beanstalkd.open("127.0.0.1")
