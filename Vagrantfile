@@ -7,7 +7,7 @@ VAGRANTFILE_API_VERSION = "2"
 $bootstrap = <<SCRIPT
 
 apt-get update
-apt-get install -y unzip beanstalkd
+apt-get install -y git unzip beanstalkd
 
 wget https://github.com/schickling/beanstalkd-cli/releases/download/0.3.0/beanstalkd-cli-linux.tar.gz
 tar xvf beanstalkd-cli-linux.tar.gz
@@ -17,6 +17,16 @@ unzip nim-0.10.2.zip
 cd nim-0.10.2
 sh build.sh
 ln -s bin/nim /usr/bin/nim
+cd ~
+
+git clone https://github.com/nim-lang/nimble.git
+cd nimble
+nim c -r src/nimble install
+cd ..
+ln -s /home/vagrant/.nimble/bin/nimble /usr/bin/nimble
+cd ~
+
+nimble update
 
 SCRIPT
 
