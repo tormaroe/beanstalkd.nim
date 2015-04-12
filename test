@@ -1,21 +1,26 @@
 #!/bin/bash
 
-echo
 echo ---------  CLEANING BUILD DIR  -------------------
-echo
 mkdir -p build
 rm build/*
 
-echo
-echo ---------  COMPILING NIM EXECUTABLES  ------------
-echo
-nim c -o:./build/beanstalkd beanstalkd.nim
-
+echo ---------  COMPILING NIM EXAMPLES  ---------------
 cd examples
 nim c -o:./../build/drain_all drain_all.nim
+nim c -o:./../build/produce_and_consume produce_and_consume.nim
+nim c -o:./../build/two_step_pipeline two_step_pipeline.nim
 cd ..
 
+echo ---------  RUNNING EXAMPLES  ---------------------
+
 echo
-echo ---------  RUNNING TEST  -------------------------
+echo Running example: Drain all \(output sent to /dev/null\)
+./build/drain_all > /dev/null
+
 echo
-./build/beanstalkd
+echo Running example: Produce and consume
+time ./build/produce_and_consume
+
+echo
+echo Running example: Two step pipeline
+time ./build/two_step_pipeline

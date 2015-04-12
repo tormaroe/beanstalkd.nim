@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo ---------  CLEANING BUILD DIR  -------------------
+mkdir -p build
+rm build/*
+
+echo ---------  COMPILING NIM EXAMPLES  ---------------
+nim c -o:./build/beanstalkd beanstalkd.nim
