@@ -7,22 +7,21 @@ Status: Beta, ready for experimental usage, may not be production ready.
 
 ## Installation
 
-How to install with nimble ...
+TODO: How to install with nimble (it's not in nimble yet) ...
 
 ## Usage
 
-How to connect, put, reserve, delete, etc. Refer to docs and examples for details, and to beanstalkd documentation ...
+*beanstalkd.nim* maps pretty closely to [the beanstalkd protocol](https://github.com/kr/beanstalkd/blob/master/doc/protocol.txt). For complete module documentation, see [tormaroe.github.io/beanstalkd.nim](http://tormaroe.github.io/beanstalkd.nim).
 
 ```nim
 import beanstalkd
 
-let beanstalk = beanstalkd.open("127.0.0.1")
-beanstalk.putStr("This is a job")
-beanstalk.putStr("Top priority job", pri = 1)
+let client = beanstalkd.open("127.0.0.1")
+discard client.putStr("hello world")
 
 let job = s.reserve
 echo job
- #==> (success: true, status: reserved, id: 42, job: Top priority job)
+ #==> (success: true, status: reserved, id: 42, job: hello world)
 
 let result = beanstalk.delete(job.id)
 echo result
