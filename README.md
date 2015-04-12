@@ -1,7 +1,9 @@
 
 ![beanstalkd.nim logo](https://raw.githubusercontent.com/tormaroe/beanstalkd.nim/master/gfx/logo.png)
 
-Status: Pre-Alpha / under development
+This is a Nim client library to connect to and use [beanstalkd](http://kr.github.io/beanstalkd/).
+
+Status: Beta, ready for experimental usage, may not be production ready.
 
 ## Installation
 
