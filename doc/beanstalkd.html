@@ -1148,7 +1148,6 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
     <div class="row">
   <div class="three columns">
   <ul class="simple simple-toc" id="toc-list">
-<li><a class="reference" id="job-lifecycle_toc" href="#job-lifecycle">Job lifecycle</a></li>
 <li>
   <a class="reference reference-toplevel" href="#6" id="56">Imports</a>
   <ul class="simple simple-toc-section">
@@ -1160,10 +1159,10 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
   <ul class="simple simple-toc-section">
       <li><a class="reference" href="#StatusCode"
     title="StatusCode = enum 
-  ok, outOfMemory, internalError, badFormat, unknownCommand, inserted, buried, 
-  expectedCrLf, jobTooBig, draining, usingOk, deadlineSoon, timedOut, paused, 
-  reserved, deleted, notFound, released, touched, kicked, found, watching, 
-  notIgnored, unknownResponse"><wbr />Status<wbr />Code</a></li>
+  badFormat, buried, deadlineSoon, deleted, draining, expectedCrLf, found, 
+  inserted, internalError, jobTooBig, kicked, notFound, notIgnored, ok, 
+  outOfMemory, paused, released, reserved, timedOut, touched, unknownCommand, 
+  unknownResponse, usingOk, watching"><wbr />Status<wbr />Code</a></li>
   <li><a class="reference" href="#BeanResponse"
     title="BeanResponse = tuple[success: bool, status: StatusCode]"><wbr />Bean<wbr />Response</a></li>
   <li><a class="reference" href="#BeanIntResponse"
@@ -1178,18 +1177,38 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
   <ul class="simple simple-toc-section">
       <li><a class="reference" href="#open,string"
     title="open(address: string; port = Port(11300)): Socket"><wbr />open</a></li>
+  <li><a class="reference" href="#listTubes,Socket"
+    title="listTubes(socket: Socket): seq[string]"><wbr />list<wbr />Tubes</a></li>
   <li><a class="reference" href="#use,Socket,string"
     title="use(socket: Socket; tube: string): BeanResponse"><wbr />use</a></li>
+  <li><a class="reference" href="#listTubeUsed,Socket"
+    title="listTubeUsed(socket: Socket): string"><wbr />list<wbr />Tube<wbr />Used</a></li>
+  <li><a class="reference" href="#usedTube,Socket"
+    title="usedTube(socket: Socket): string"><wbr />used<wbr />Tube</a></li>
+  <li><a class="reference" href="#put,Socket,string,int,int,int"
+    title="put(socket: Socket; data: string; pri = 100; delay = 0; ttr = 5): BeanIntResponse"><wbr />put</a></li>
   <li><a class="reference" href="#watch,Socket,string"
     title="watch(socket: Socket; tube: string): BeanIntResponse"><wbr />watch</a></li>
   <li><a class="reference" href="#ignore,Socket,string"
     title="ignore(socket: Socket; tube: string): BeanIntResponse"><wbr />ignore</a></li>
-  <li><a class="reference" href="#listTubes,Socket"
-    title="listTubes(socket: Socket): seq[string]"><wbr />list<wbr />Tubes</a></li>
-  <li><a class="reference" href="#putStr,Socket,string,int,int,int"
-    title="putStr(socket: Socket; data: string; pri = 100; delay = 0; ttr = 5): BeanIntResponse"><wbr />put<wbr />Str</a></li>
+  <li><a class="reference" href="#listTubesWatched,Socket"
+    title="listTubesWatched(socket: Socket): seq[string]"><wbr />list<wbr />Tubes<wbr />Watched</a></li>
   <li><a class="reference" href="#reserve,Socket"
     title="reserve(socket: Socket; timeout = - 1): BeanJob"><wbr />reserve</a></li>
+  <li><a class="reference" href="#touch,Socket,int"
+    title="touch(socket: Socket; id: int): BeanResponse"><wbr />touch</a></li>
+  <li><a class="reference" href="#delete,Socket,int"
+    title="delete(socket: Socket; id: int): BeanResponse"><wbr />delete</a></li>
+  <li><a class="reference" href="#release,Socket,int,int,int"
+    title="release(socket: Socket; id: int; pri = 100; delay = 0): BeanResponse"><wbr />release</a></li>
+  <li><a class="reference" href="#bury,Socket,int,int"
+    title="bury(socket: Socket; id: int; pri = 100): BeanResponse"><wbr />bury</a></li>
+  <li><a class="reference" href="#kick,Socket,int"
+    title="kick(socket: Socket; bound: int): BeanIntResponse"><wbr />kick</a></li>
+  <li><a class="reference" href="#kickJob,Socket,int"
+    title="kickJob(socket: Socket; id: int): BeanResponse"><wbr />kick<wbr />Job</a></li>
+  <li><a class="reference" href="#pauseTube,Socket,string,int"
+    title="pauseTube(socket: Socket; tube: string; delay: int): BeanResponse"><wbr />pause<wbr />Tube</a></li>
   <li><a class="reference" href="#peek,Socket,int"
     title="peek(socket: Socket; id: int): BeanJob"><wbr />peek</a></li>
   <li><a class="reference" href="#peekReady,Socket"
@@ -1198,30 +1217,12 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
     title="peekDelayed(socket: Socket): BeanJob"><wbr />peek<wbr />Delayed</a></li>
   <li><a class="reference" href="#peekBuried,Socket"
     title="peekBuried(socket: Socket): BeanJob"><wbr />peek<wbr />Buried</a></li>
-  <li><a class="reference" href="#release,Socket,int,int,int"
-    title="release(socket: Socket; id: int; pri = 100; delay = 0): BeanResponse"><wbr />release</a></li>
-  <li><a class="reference" href="#touch,Socket,int"
-    title="touch(socket: Socket; id: int): BeanResponse"><wbr />touch</a></li>
-  <li><a class="reference" href="#delete,Socket,int"
-    title="delete(socket: Socket; id: int): BeanResponse"><wbr />delete</a></li>
-  <li><a class="reference" href="#bury,Socket,int,int"
-    title="bury(socket: Socket; id: int; pri = 100): BeanResponse"><wbr />bury</a></li>
-  <li><a class="reference" href="#kickJob,Socket,int"
-    title="kickJob(socket: Socket; id: int): BeanResponse"><wbr />kick<wbr />Job</a></li>
-  <li><a class="reference" href="#kick,Socket,int"
-    title="kick(socket: Socket; bound: int): BeanIntResponse"><wbr />kick</a></li>
   <li><a class="reference" href="#stats,Socket"
     title="stats(socket: Socket): seq[string]"><wbr />stats</a></li>
   <li><a class="reference" href="#statsTube,Socket,string"
     title="statsTube(socket: Socket; tube: string): seq[string]"><wbr />stats<wbr />Tube</a></li>
   <li><a class="reference" href="#statsJob,Socket,int"
     title="statsJob(socket: Socket; id: int): seq[string]"><wbr />stats<wbr />Job</a></li>
-  <li><a class="reference" href="#listTubeUsed,Socket"
-    title="listTubeUsed(socket: Socket): string"><wbr />list<wbr />Tube<wbr />Used</a></li>
-  <li><a class="reference" href="#listTubesWatched,Socket"
-    title="listTubesWatched(socket: Socket): seq[string]"><wbr />list<wbr />Tubes<wbr />Watched</a></li>
-  <li><a class="reference" href="#pauseTube,Socket,string,int"
-    title="pauseTube(socket: Socket; tube: string; delay: int): BeanResponse"><wbr />pause<wbr />Tube</a></li>
   <li><a class="reference" href="#quit,Socket"
     title="quit(socket: Socket)"><wbr />quit</a></li>
 
@@ -1233,9 +1234,7 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
   </div>
   <div class="nine columns" id="content">
   <p class="module-desc"><p>This module provides a client API to a <a class="reference external" href="http://kr.github.io/beanstalkd/">beanstalkd</a> server for both producers and consumers.</p>
-<p>If you want more details on the underlying beanstalkd protocol see <a class="reference external" href="https://github.com/kr/beanstalkd/blob/master/doc/protocol.txt">this protocol specification</a>.</p>
-
-<h1><a class="toc-backref" id="job-lifecycle" href="#job-lifecycle">Job lifecycle</a></h1><p>A job in beanstalk gets created by a client with the &quot;put&quot; command. During its life it can be in one of four states: &quot;ready&quot;, &quot;reserved&quot;, &quot;delayed&quot;, or &quot;buried&quot;. After the put command, a job typically starts out ready. It waits in the ready queue until a worker comes along and runs the &quot;reserve&quot; command. If this job is next in the queue, it will be reserved for the worker. The worker will execute the job; when it is finished the worker will send a &quot;delete&quot; command to delete the job.</p>
+<p>If you want more details on the underlying beanstalkd protocol, or the lifecycle of a beanstalk job, see <a class="reference external" href="https://github.com/kr/beanstalkd/blob/master/doc/protocol.txt">this protocol specification</a>.</p>
 </p>
   <div class="section" id="6">
 <h1><a class="toc-backref" href="#6">Imports</a></h1>
@@ -1246,27 +1245,31 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
 <h1><a class="toc-backref" href="#7">Types</a></h1>
 <dl class="item">
 <dt id="StatusCode"><a name="StatusCode"></a><pre><span class="Identifier">StatusCode</span> <span class="Other">=</span> <span class="Keyword">enum</span> 
-  <span class="Identifier">ok</span><span class="Other">,</span> <span class="Identifier">outOfMemory</span><span class="Other">,</span> <span class="Identifier">internalError</span><span class="Other">,</span> <span class="Identifier">badFormat</span><span class="Other">,</span> <span class="Identifier">unknownCommand</span><span class="Other">,</span> <span class="Identifier">inserted</span><span class="Other">,</span> <span class="Identifier">buried</span><span class="Other">,</span> 
-  <span class="Identifier">expectedCrLf</span><span class="Other">,</span> <span class="Identifier">jobTooBig</span><span class="Other">,</span> <span class="Identifier">draining</span><span class="Other">,</span> <span class="Identifier">usingOk</span><span class="Other">,</span> <span class="Identifier">deadlineSoon</span><span class="Other">,</span> <span class="Identifier">timedOut</span><span class="Other">,</span> <span class="Identifier">paused</span><span class="Other">,</span> 
-  <span class="Identifier">reserved</span><span class="Other">,</span> <span class="Identifier">deleted</span><span class="Other">,</span> <span class="Identifier">notFound</span><span class="Other">,</span> <span class="Identifier">released</span><span class="Other">,</span> <span class="Identifier">touched</span><span class="Other">,</span> <span class="Identifier">kicked</span><span class="Other">,</span> <span class="Identifier">found</span><span class="Other">,</span> <span class="Identifier">watching</span><span class="Other">,</span> 
-  <span class="Identifier">notIgnored</span><span class="Other">,</span> <span class="Identifier">unknownResponse</span></pre></dt>
+  <span class="Identifier">badFormat</span><span class="Other">,</span> <span class="Identifier">buried</span><span class="Other">,</span> <span class="Identifier">deadlineSoon</span><span class="Other">,</span> <span class="Identifier">deleted</span><span class="Other">,</span> <span class="Identifier">draining</span><span class="Other">,</span> <span class="Identifier">expectedCrLf</span><span class="Other">,</span> <span class="Identifier">found</span><span class="Other">,</span> 
+  <span class="Identifier">inserted</span><span class="Other">,</span> <span class="Identifier">internalError</span><span class="Other">,</span> <span class="Identifier">jobTooBig</span><span class="Other">,</span> <span class="Identifier">kicked</span><span class="Other">,</span> <span class="Identifier">notFound</span><span class="Other">,</span> <span class="Identifier">notIgnored</span><span class="Other">,</span> <span class="Identifier">ok</span><span class="Other">,</span> 
+  <span class="Identifier">outOfMemory</span><span class="Other">,</span> <span class="Identifier">paused</span><span class="Other">,</span> <span class="Identifier">released</span><span class="Other">,</span> <span class="Identifier">reserved</span><span class="Other">,</span> <span class="Identifier">timedOut</span><span class="Other">,</span> <span class="Identifier">touched</span><span class="Other">,</span> <span class="Identifier">unknownCommand</span><span class="Other">,</span> 
+  <span class="Identifier">unknownResponse</span><span class="Other">,</span> <span class="Identifier">usingOk</span><span class="Other">,</span> <span class="Identifier">watching</span></pre></dt>
 <dd>
 
+Represents all possible respons messages possible from the beanstalkd service.
 
 </dd>
 <dt id="BeanResponse"><a name="BeanResponse"></a><pre><span class="Identifier">BeanResponse</span> <span class="Other">=</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">success</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">,</span> <span class="Identifier">status</span><span class="Other">:</span> <span class="Identifier">StatusCode</span><span class="Other">]</span></pre></dt>
 <dd>
 
+This type is returned by many of the beanstalkd procedures. It tells you if the operation was a success, and provides the status returned by the operation.
 
 </dd>
 <dt id="BeanIntResponse"><a name="BeanIntResponse"></a><pre><span class="Identifier">BeanIntResponse</span> <span class="Other">=</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">success</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">,</span> <span class="Identifier">status</span><span class="Other">:</span> <span class="Identifier">StatusCode</span><span class="Other">,</span> <span class="Identifier">value</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">]</span></pre></dt>
 <dd>
 
+This type is returned by beanstalkd procedures which needs to return an integer.
 
 </dd>
 <dt id="BeanJob"><a name="BeanJob"></a><pre><span class="Identifier">BeanJob</span> <span class="Other">=</span> <span class="Keyword">tuple</span><span class="Other">[</span><span class="Identifier">success</span><span class="Other">:</span> <span class="Identifier">bool</span><span class="Other">,</span> <span class="Identifier">status</span><span class="Other">:</span> <span class="Identifier">StatusCode</span><span class="Other">,</span> <span class="Identifier">id</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">,</span> <span class="Identifier">job</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">]</span></pre></dt>
 <dd>
 
+This tuple is returned by beanstalkd procedures used to retrieve jobs. The actual job data is held by the <tt class="docutils literal"><span class="pre">job</span></tt> property.
 
 </dd>
 
@@ -1277,23 +1280,58 @@ dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator
 <dt id="open"><a name="open,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">open</span><span class="Other">(</span><span class="Identifier">address</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">port</span> <span class="Other">=</span> <span class="Identifier">Port</span><span class="Other">(</span><span class="DecNumber">11300</span><span class="Other">)</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">Socket</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">]</span><span class="Other">,</span> 
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ReadIOEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
-Opens a socket to a beanstalkd server.
+Opens a socket conection to a beanstalkd server.
+
+</dd>
+<dt id="listTubes"><a name="listTubes,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">listTubes</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+Get a list of all available tubes.
 
 </dd>
 <dt id="use"><a name="use,Socket,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">use</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">tube</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanResponse</span> <span class="Other">{.</span>
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> 
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
-Used by job producers to specify which tube to put jobs to. By default jobs go to the <tt class="docutils literal"><span class="pre">default</span></tt> tube.
+Used by job producers to specify which tube to put jobs to. By default jobs go to the <tt class="docutils literal"><span class="pre">default</span></tt> tube (duh!).
+
+</dd>
+<dt id="listTubeUsed"><a name="listTubeUsed,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">listTubeUsed</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> 
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+<p>Get the name of the currently used tube (where new jobs will be put).</p>
+<p>The name is a bit strange, since it does not provide a list, but it's the name chosen by the beanstalkd author :)</p>
+
+
+</dd>
+<dt id="usedTube"><a name="usedTube,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">usedTube</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span>
+    <span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+This is an alias for <tt class="docutils literal"><span class="pre">listTubeUsed</span></tt>.
+
+</dd>
+<dt id="put"><a name="put,Socket,string,int,int,int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">put</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">data</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">pri</span> <span class="Other">=</span> <span class="DecNumber">100</span><span class="Other">;</span> <span class="Identifier">delay</span> <span class="Other">=</span> <span class="DecNumber">0</span><span class="Other">;</span> <span class="Identifier">ttr</span> <span class="Other">=</span> <span class="DecNumber">5</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanIntResponse</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">]</span><span class="Other">,</span> 
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+<p>Inserts a job into the currently used tube (see <tt class="docutils literal"><span class="pre">use</span></tt>).</p>
+<p><tt class="docutils literal"><span class="pre">data</span></tt> is the job body.</p>
+<p><tt class="docutils literal"><span class="pre">pri</span></tt> is an integer &lt; 2**32. Jobs with smaller priority values will be scheduled before jobs with larger priorities. The most urgent priority is 0; the least urgent priority is 4,294,967,295.</p>
+<p><tt class="docutils literal"><span class="pre">delay</span></tt> is an integer number of seconds to wait before putting the job in the ready queue. The job will be in the &quot;delayed&quot; state during this time.</p>
+<p><tt class="docutils literal"><span class="pre">ttr</span></tt> -- <em>time to run</em> -- is an integer number of seconds to allow a worker to run this job. This time is counted from the moment a worker reserves this job. If the worker does not delete, release, or bury the job within ttr seconds, the job will time out and the server will release the job. The minimum ttr is 1. If the client sends 0, the server will silently increase the ttr to 1.</p>
+<p>Upon success <tt class="docutils literal"><span class="pre">put</span></tt> returns a <tt class="docutils literal"><span class="pre">BeanIntResponse</span></tt> containing the id of the inserted job.</p>
+<p>Note that the server may run out of memory trying to grow the priority queue data structure. In that case the job should still be created, and a success with the new id is returned. The status will be <tt class="docutils literal"><span class="pre">buried</span></tt>, not <tt class="docutils literal"><span class="pre">inserted</span></tt> as normal.</p>
+
 
 </dd>
 <dt id="watch"><a name="watch,Socket,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">watch</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">tube</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanIntResponse</span> <span class="Other">{.</span>
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
-<p>The &quot;watch&quot; command adds the named tube to the watch list for the current connection. A reserve command will take a job from any of the tubes in the watch list. For each new connection, the watch list initially consists of one tube, named &quot;default&quot;.</p>
+<p>The <tt class="docutils literal"><span class="pre">watch</span></tt> command adds the named tube to the watch list for the current connection. A reserve command will take a job from any of the tubes in the watch list. For each new connection, the watch list initially consists of one tube, named &quot;default&quot;.</p>
 <p><tt class="docutils literal"><span class="pre">tube</span></tt> is a name at most 200 bytes. It specifies a tube to add to the watch list. If the tube doesn't exist, it will be created.</p>
-<p><tt class="docutils literal"><span class="pre">watch</span></tt> returns the integer number of tubes currently in the watch list.</p>
+<p><tt class="docutils literal"><span class="pre">watch</span></tt> returns the number of tubes currently in the watch list.</p>
 
 
 </dd>
@@ -1301,62 +1339,22 @@ Used by job producers to specify which tube to put jobs to. By default jobs go t
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
-
+Removes the named tube from the watch list for the current connection.
 
 </dd>
-<dt id="listTubes"><a name="listTubes,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">listTubes</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">{.</span>
+<dt id="listTubesWatched"><a name="listTubesWatched,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">listTubesWatched</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">{.</span>
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
-
-
-</dd>
-<dt id="putStr"><a name="putStr,Socket,string,int,int,int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">putStr</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">data</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">pri</span> <span class="Other">=</span> <span class="DecNumber">100</span><span class="Other">;</span> <span class="Identifier">delay</span> <span class="Other">=</span> <span class="DecNumber">0</span><span class="Other">;</span> <span class="Identifier">ttr</span> <span class="Other">=</span> <span class="DecNumber">5</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanIntResponse</span> <span class="Other">{.</span>
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">]</span><span class="Other">,</span> 
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
-<dd>
-
+Returns a sequence of named tubes that is currently watched by the connection. A reserve command will take a job from any of these tubes.
 
 </dd>
 <dt id="reserve"><a name="reserve,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">reserve</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">timeout</span> <span class="Other">=</span> <span class="Operator">-</span> <span class="DecNumber">1</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanJob</span> <span class="Other">{.</span>
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">]</span><span class="Other">,</span> 
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
-Reserve and return a job. If no job is available to be reserved but a <tt class="docutils literal"><span class="pre">timeout &gt; 0</span></tt> is specified, reserve will block and wait the specified amount of seconds or until a job becomes available. If no job can be reserved, a job with <tt class="docutils literal"><span class="pre">id = -1</span></tt> is returned.
-
-</dd>
-<dt id="peek"><a name="peek,Socket,int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">peek</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">id</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanJob</span> <span class="Other">{.</span>
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">]</span><span class="Other">,</span> 
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
-<dd>
-
-
-</dd>
-<dt id="peekReady"><a name="peekReady,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">peekReady</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanJob</span> <span class="Other">{.</span>
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
-<dd>
-
-
-</dd>
-<dt id="peekDelayed"><a name="peekDelayed,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">peekDelayed</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanJob</span> <span class="Other">{.</span>
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
-<dd>
-Returns the delayed job with the shortest delay left.
-
-</dd>
-<dt id="peekBuried"><a name="peekBuried,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">peekBuried</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanJob</span> <span class="Other">{.</span>
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
-<dd>
-Returns the next job in the list of buried jobs.
-
-</dd>
-<dt id="release"><a name="release,Socket,int,int,int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">release</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">id</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">pri</span> <span class="Other">=</span> <span class="DecNumber">100</span><span class="Other">;</span> <span class="Identifier">delay</span> <span class="Other">=</span> <span class="DecNumber">0</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanResponse</span> <span class="Other">{.</span>
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> 
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
-<dd>
+<p>Reserve and return a job. If no job is available to be reserved but a <tt class="docutils literal"><span class="pre">timeout &gt; 0</span></tt> is specified, reserve will block and wait the specified amount of seconds or until a job becomes available.</p>
+<p>The default timeout value of -1 makes <tt class="docutils literal"><span class="pre">reserve</span></tt> block and wait for new jobs indefinitely.</p>
 
 
 </dd>
@@ -1364,6 +1362,8 @@ Returns the next job in the list of buried jobs.
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> 
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
+<p><tt class="docutils literal"><span class="pre">touch</span></tt> allows a worker to request more time to work on a job. This is useful for jobs that potentially take a long time, but you still want the benefits of a TTR pulling a job away from an unresponsive worker.  A worker may periodically tell the server that it's still alive and processing a job. The command postpones the auto release of a reserved job until TTR seconds from when the command is issued.</p>
+<p><tt class="docutils literal"><span class="pre">id</span></tt> is the ID of a job reserved by the current connection.</p>
 
 
 </dd>
@@ -1371,6 +1371,19 @@ Returns the next job in the list of buried jobs.
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> 
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
+<p>Removes a job from the server entirely. It is normally used by the client when the job has successfully run to completion. A client can delete jobs that it has reserved, ready jobs, delayed jobs, and jobs that are buried.</p>
+<p><tt class="docutils literal"><span class="pre">id</span></tt> is the job id to delete.</p>
+
+
+</dd>
+<dt id="release"><a name="release,Socket,int,int,int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">release</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">id</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">;</span> <span class="Identifier">pri</span> <span class="Other">=</span> <span class="DecNumber">100</span><span class="Other">;</span> <span class="Identifier">delay</span> <span class="Other">=</span> <span class="DecNumber">0</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanResponse</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> 
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+<p>Puts a reserved job back into the ready queue (and marks its state as &quot;ready&quot;) to be run by any client.</p>
+<p><tt class="docutils literal"><span class="pre">id</span></tt>: The id of the job to release.</p>
+<p><tt class="docutils literal"><span class="pre">pri</span></tt>: A new priority to assign to the job.</p>
+<p><tt class="docutils literal"><span class="pre">delay</span></tt>: An integer number of seconds to wait before putting the job in the ready queue. The job will be in the &quot;delayed&quot; state during this time.</p>
 
 
 </dd>
@@ -1378,13 +1391,9 @@ Returns the next job in the list of buried jobs.
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> 
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
-
-
-</dd>
-<dt id="kickJob"><a name="kickJob,Socket,int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">kickJob</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">id</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanResponse</span> <span class="Other">{.</span>
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> 
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
-<dd>
+<p>Puts a job into the &quot;buried&quot; state. Buried jobs are put into a FIFO linked list and will not be touched by the server again until a client kicks them with the <tt class="docutils literal"><span class="pre">kick</span></tt> command.</p>
+<p><tt class="docutils literal"><span class="pre">id</span></tt> is the job id to bury.</p>
+<p><tt class="docutils literal"><span class="pre">pri</span></tt> is a new priority to assign to the job.</p>
 
 
 </dd>
@@ -1394,14 +1403,61 @@ Returns the next job in the list of buried jobs.
 <dd>
 <p>The kick command applies only to the currently used tube. It moves jobs into the ready queue. If there are any buried jobs, it will only kick buried jobs. Otherwise it will kick delayed jobs.</p>
 <p><tt class="docutils literal"><span class="pre">bound</span></tt> is an integer upper bound on the number of jobs to kick. The server will kick no more than <tt class="docutils literal"><span class="pre">bound</span></tt> jobs.</p>
-<p><tt class="docutils literal"><span class="pre">kick</span></tt> returns an integer indicating the number of jobs actually kicked.</p>
+<p>The returned respons contain an integer indicating the number of jobs actually kicked.</p>
 
+
+</dd>
+<dt id="kickJob"><a name="kickJob,Socket,int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">kickJob</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">id</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanResponse</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> 
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+A variant of <tt class="docutils literal"><span class="pre">kick</span></tt> that operates with a single job identified by its job id. If the given job id exists and is in a buried or delayed state, it will be moved to the ready queue of the the same tube where it currently belongs.
+
+</dd>
+<dt id="pauseTube"><a name="pauseTube,Socket,string,int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pauseTube</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">tube</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">delay</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanResponse</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> 
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+<p>This command can delay any new job being reserved for a given time.</p>
+<p><tt class="docutils literal"><span class="pre">tube</span></tt> is the tube to pause.</p>
+<p><tt class="docutils literal"><span class="pre">delay</span></tt> is an integer number of seconds to wait before reserving any more jobs from the queue.</p>
+
+
+</dd>
+<dt id="peek"><a name="peek,Socket,int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">peek</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">id</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanJob</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">]</span><span class="Other">,</span> 
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+Get a job by its id. The job is not reserved by this operation!
+
+</dd>
+<dt id="peekReady"><a name="peekReady,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">peekReady</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanJob</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+Get the highest priority job from the ready queue. The job is not reserved by this operation!
+
+</dd>
+<dt id="peekDelayed"><a name="peekDelayed,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">peekDelayed</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanJob</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+Returns the delayed job with the shortest delay left. The job is not reserved by this operation!
+
+</dd>
+<dt id="peekBuried"><a name="peekBuried,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">peekBuried</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanJob</span> <span class="Other">{.</span>
+    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
+    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
+<dd>
+Returns the next job in the list of buried jobs. The job is not reserved by this operation!
 
 </dd>
 <dt id="stats"><a name="stats,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">stats</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">{.</span>
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
+<p>Gives statistical information about the system as a whole.</p>
+<p>A sequence of strings are returned with strings of &quot;key: value&quot;. This may change to something more strongly types in the future.</p>
 
 
 </dd>
@@ -1409,6 +1465,8 @@ Returns the next job in the list of buried jobs.
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">]</span><span class="Other">,</span> 
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
+<p>Gives statistical information about the specified tube if it exists.</p>
+<p>A sequence of strings are returned with strings of &quot;key: value&quot;. This may change to something more strongly types in the future.</p>
 
 
 </dd>
@@ -1416,32 +1474,14 @@ Returns the next job in the list of buried jobs.
     <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">]</span><span class="Other">,</span> 
     <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
-
-
-</dd>
-<dt id="listTubeUsed"><a name="listTubeUsed,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">listTubeUsed</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> 
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
-<dd>
-
-
-</dd>
-<dt id="listTubesWatched"><a name="listTubesWatched,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">listTubesWatched</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">string</span><span class="Other">]</span> <span class="Other">{.</span>
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">,</span> <span class="Identifier">OverflowError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">]</span><span class="Other">,</span> 
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
-<dd>
-
-
-</dd>
-<dt id="pauseTube"><a name="pauseTube,Socket,string,int"></a><pre><span class="Keyword">proc</span> <span class="Identifier">pauseTube</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">;</span> <span class="Identifier">tube</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">;</span> <span class="Identifier">delay</span><span class="Other">:</span> <span class="Identifier">int</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">BeanResponse</span> <span class="Other">{.</span>
-    <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">,</span> <span class="Identifier">ValueError</span><span class="Other">,</span> <span class="Identifier">TimeoutError</span><span class="Other">]</span><span class="Other">,</span> 
-    <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">,</span> <span class="Identifier">ReadIOEffect</span><span class="Other">,</span> <span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
-<dd>
+<p>Gives statistical information about the specified job if it exists.</p>
+<p>A sequence of strings are returned with strings of &quot;key: value&quot;. This may change to something more strongly types in the future.</p>
 
 
 </dd>
 <dt id="quit"><a name="quit,Socket"></a><pre><span class="Keyword">proc</span> <span class="Identifier">quit</span><span class="Other">(</span><span class="Identifier">socket</span><span class="Other">:</span> <span class="Identifier">Socket</span><span class="Other">)</span> <span class="Other">{.</span><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">OSError</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">WriteIOEffect</span><span class="Other">]</span><span class="Other">.}</span></pre></dt>
 <dd>
-
+Closes the connection.
 
 </dd>
 
@@ -1454,7 +1494,7 @@ Returns the next job in the list of buried jobs.
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small>Made with Nim. Generated: 2015-04-11 22:10:49 UTC</small>
+        <small>Made with Nim. Generated: 2015-04-12 11:36:03 UTC</small>
       </div>
     </div>
   </div>

@@ -14,7 +14,7 @@ let client = beanstalkd.open("127.0.0.1")
 # Produce jobs..
 for n in 1.. < 1000:
   if (n mod 3 == 0) or (n mod 5 == 0):
-    discard client.putStr($n)
+    discard client.put($n)
 
 # Consume jobs..
 var sum = 0

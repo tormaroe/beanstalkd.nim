@@ -13,7 +13,7 @@ let client = beanstalkd.open("127.0.0.1")
 # Produce jobs in tube A..
 echo client.use "A"
 for n in 1.. < 1000:
-  discard client.putStr($n)
+  discard client.put($n)
 
 # Consume jobs from tube A, produce jobs in tube B..
 echo client.watch "A"
@@ -25,7 +25,7 @@ while true:
   if next.success:
     let n = next.job.parseInt
     if (n mod 3 == 0) or (n mod 5 == 0):
-      discard client.putStr(next.job)
+      discard client.put(next.job)
       discard client.delete(next.id)
       count += 1
   else:

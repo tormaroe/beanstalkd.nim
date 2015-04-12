@@ -22,7 +22,7 @@ proc produceNumbers() =
   let client = beanstalkd.open("127.0.0.1")
   discard client.use "A"
   for n in 1.. < 1000:
-    discard client.putStr($n)
+    discard client.put($n)
   echo "produceNumbers done"
 
 proc consumeA(id: int) =
@@ -39,7 +39,7 @@ proc consumeA(id: int) =
       let n = next.job.parseInt
       if (n mod 3 == 0) or (n mod 5 == 0):
         produced += 1
-        discard client.putStr(next.job)
+        discard client.put(next.job)
         discard client.delete(next.id)
     else:
       break

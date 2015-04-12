@@ -17,7 +17,7 @@ TODO: How to install with nimble (it's not in nimble yet) ...
 import beanstalkd
 
 let client = beanstalkd.open("127.0.0.1")
-discard client.putStr("hello world")
+discard client.put("hello world")
 
 let job = client.reserve
 echo job
