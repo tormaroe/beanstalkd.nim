@@ -10,7 +10,13 @@ import beanstalkd, strutils, threadpool
 #
 # Output will be something like:
 #
-
+#     produceNumbers done
+#     All threads spawned
+#     A-consumer 4 done, consumed 848, produced 110
+#     A-consumer 3 done, consumed 941, produced 120
+#     A-consumer 2 done, consumed 942, produced 117
+#     A-consumer 1 done, consumed 938, produced 119
+#     The sum of all multiples of 3 and 5 is 233168
 
 proc produceNumbers() =
   let client = beanstalkd.open("127.0.0.1")
