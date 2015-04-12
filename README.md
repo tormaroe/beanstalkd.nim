@@ -9,7 +9,7 @@ How to install with nimble ...
 
 ## Usage
 
-How to connect, put, reserve, delete, etc. Refer to docs for details, and to beanstalkd documentation ...
+How to connect, put, reserve, delete, etc. Refer to docs and examples for details, and to beanstalkd documentation ...
 
 ```nim
 import beanstalkd
@@ -20,13 +20,33 @@ beanstalk.putStr("Top priority job", pri = 1)
 
 let job = s.reserve
 echo job
- #==> (success: true, status: reserved, jobId: 42, job: Top priority job)
+ #==> (success: true, status: reserved, id: 42, job: Top priority job)
 
-let result = beanstalk.delete(job.jobId)
+let result = beanstalk.delete(job.id)
 echo result
  #==> (success: true, status: deleted)
 ```
 
 ## Development
 
-How to run tests, prepare a new release, generate docs, etc. ...
+This project uses vagrant to bootstrap the development environment. To get started:
+
+    $ git clone https://github.com/tormaroe/beanstalkd.nim
+    $ cd beanstalkd.nim
+    $ vagrant up
+    $ vagrant ssh
+    $ cd /vagrant
+
+Now to build and run all the examples, do:
+
+    $ ./test
+
+Executables are located in `/vagrant/build`. To only compile the beanstalkd module, do:
+
+    $ ./compile
+
+To re-generate module documentation, run:
+
+    $ ./gendoc
+
+TODO: How to prepare new release...
