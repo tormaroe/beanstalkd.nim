@@ -507,7 +507,10 @@
        inkscape:export-ydpi="90" />
     <g
        id="g9654"
-       transform="translate(174,-22)">
+       transform="translate(174,-22)"
+       inkscape:export-filename="C:\dev\beanstalkd.nim\gfx\logo.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <g
          transform="matrix(0.24079969,0,0,-0.24079969,216.41851,246.36231)"
          id="g6341-5">
