@@ -19,11 +19,11 @@ import beanstalkd
 let client = beanstalkd.open("127.0.0.1")
 discard client.putStr("hello world")
 
-let job = s.reserve
+let job = client.reserve
 echo job
  #==> (success: true, status: reserved, id: 42, job: hello world)
 
-let result = beanstalk.delete(job.id)
+let result = client.delete(job.id)
 echo result
  #==> (success: true, status: deleted)
 ```
