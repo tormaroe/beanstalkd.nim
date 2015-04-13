@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.5 r10040"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mend"
+       style="overflow:visible;">
+      <path
+         id="path3863"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-5"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3863-1"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-52"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3863-7"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-2"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3863-3"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-6"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3863-8"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-9"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3863-2"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-4"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3863-31"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-1"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3863-13"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-7"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3863-9"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Mend-8"
+       style="overflow:visible">
+      <path
+         inkscape:connector-curvature="0"
+         id="path3863-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)" />
+    </marker>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1"
+     inkscape:cx="219"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1138"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffffff;stroke:none"
+       id="rect4722"
+       width="597"
+       height="387"
+       x="3"
+       y="362.36218"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <image
+       y="-12.137817"
+       x="56.5"
+       id="image2993"
+       xlink:href="data:image/png;base64,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
+"
+       height="365"
+       width="463" />
+    <rect
+       style="fill:#decd87;stroke:none"
+       id="rect2996"
+       width="83"
+       height="34"
+       x="127"
+       y="388.36218"
+       rx="6"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="138"
+       y="410.36218"
+       id="text2998"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan3000"
+         x="138"
+         y="410.36218">DELAYED</tspan></text>
+    <rect
+       style="fill:#cdde87;stroke:none"
+       id="rect2996-1"
+       width="83"
+       height="34"
+       x="127"
+       y="488.36218"
+       rx="6"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="146"
+       y="510.36218"
+       id="text2998-7"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan3052"
+         x="146"
+         y="510.36218">READY</tspan></text>
+    <rect
+       style="fill:#afdde9;stroke:none"
+       id="rect2996-1-0"
+       width="83"
+       height="34"
+       x="347"
+       y="488.36218"
+       rx="6"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="353"
+       y="510.36218"
+       id="text2998-7-9"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan3050"
+         x="353"
+         y="510.36218">RESERVED</tspan></text>
+    <rect
+       style="fill:#ccaaff;stroke:none"
+       id="rect2996-1-8"
+       width="83"
+       height="34"
+       x="127"
+       y="628.36218"
+       rx="6"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="145"
+       y="650.36218"
+       id="text2998-7-8"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan3078"
+         x="145"
+         y="650.36218">BURIED</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 218,506.36218 120,0"
+       id="path3080"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="253.12622"
+       y="498.01501"
+       id="text2998-7-4"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan4315"
+         x="253.12622"
+         y="498.01501">reserve</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 26,506.36218 92,0"
+       id="path3080-7"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="33.126221"
+       y="498.01501"
+       id="text2998-7-4-1"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan4347">put</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 26,406.36218 92,0"
+       id="path3080-7-6"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="33.126221"
+       y="398.01501"
+       id="text2998-7-4-1-1"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan4379">put with delay</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 387,483.81218 0,-78.45 -163,0.45"
+       id="path3080-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="253.12622"
+       y="398.01501"
+       id="text2998-7-4-1-1-2"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan4426">release with delay</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 436,506.36218 92,0"
+       id="path3080-7-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="465.12622"
+       y="498.01501"
+       id="text2998-7-4-1-7"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan4458"
+         x="465.12622"
+         y="498.01501">delete</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#aa0000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Oblique"
+       x="538.12622"
+       y="511.01501"
+       id="text2998-7-4-1-7-1"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan4481"
+         x="538.12622"
+         y="511.01501">*poof*</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 388.95,528.30225 0,118.45 -171,-0.45"
+       id="path3080-2-7"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="253.12622"
+       y="638.01501"
+       id="text2998-7-4-9"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan4528">bury</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 149,624.81218 0,-96.12274"
+       id="path3080-23"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="155.97461"
+       y="589.64709"
+       id="text2998-7-4-9-3"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan4575">kick</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 149.05,668.30225 0,50.45 123,-0.45"
+       id="path3080-2-8"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="185.7583"
+       y="709.92517"
+       id="text2998-7-4-1-7-7"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan4458-4"
+         x="185.7583"
+         y="709.92517">delete</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#aa0000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Oblique"
+       x="282.7583"
+       y="722.92517"
+       id="text2998-7-4-1-7-1-2"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan4481-7"
+         x="282.7583"
+         y="722.92517">*poof*</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 149,428.89974 0,53.01734"
+       id="path3080-23-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:oblique;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#4d4d4d;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans Oblique"
+       x="155.97461"
+       y="455.64709"
+       id="text2998-7-4-9-3-1"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan4673">(time passes)</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;marker-end:url(#Arrow1Mend)"
+       d="m 364.95,528.30225 0,37.94435 L 231.00104,566.13368 182.95,530.10245"
+       id="path3080-2-7-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-size:13px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="253.12622"
+       y="558.01501"
+       id="text2998-7-4-0"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\dev\kjempekjekt.com\etc\wp-content\uploads\2015\04\beanstalkd-flow.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan4720">release</tspan></text>
+  </g>
+</svg>
