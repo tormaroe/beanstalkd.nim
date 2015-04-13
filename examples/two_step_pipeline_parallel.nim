@@ -12,10 +12,10 @@ import beanstalkd, strutils, threadpool
 #
 #     produceNumbers done
 #     All threads spawned
-#     A-consumer 4 done, consumed 848, produced 110
-#     A-consumer 3 done, consumed 941, produced 120
-#     A-consumer 2 done, consumed 942, produced 117
-#     A-consumer 1 done, consumed 938, produced 119
+#     A-consumer 2 done, consumed 332, produced 156
+#     A-consumer 3 done, consumed 328, produced 148
+#     A-consumer 4 done, consumed 0, produced 0
+#     A-consumer 1 done, consumed 339, produced 162
 #     The sum of all multiples of 3 and 5 is 233168
 
 proc produceNumbers() =
@@ -30,8 +30,7 @@ proc consumeA(id: int) =
   discard client.watch "A"
   discard client.ignore "default"
   discard client.use "B"
-  var consumed = 0
-  var produced = 0
+  var consumed, produced : int
   while true:
     let next = client.reserve(timeout = 1)
     if next.success:
@@ -40,7 +39,7 @@ proc consumeA(id: int) =
       if (n mod 3 == 0) or (n mod 5 == 0):
         produced += 1
         discard client.put(next.job)
-        discard client.delete(next.id)
+      discard client.delete(next.id)
     else:
       break
   echo "A-consumer $# done, consumed $#, produced $#" %

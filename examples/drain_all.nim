@@ -23,12 +23,16 @@ for tube in client.listTubes:
   echo "+++ Watching tube `$#` +++" % tube
   echo client.watch(tube)
 
+var count : int
+
 while true:
   var job = client.reserve(timeout = 0)
-  echo job
+  discard job
   if job.success:
-    echo client.delete(job.id)
+    discard client.delete(job.id)
+    count += 1
   else:
+    echo "Drained $# jobs" % $count
     break
 
 echo "*** DONE ***"
