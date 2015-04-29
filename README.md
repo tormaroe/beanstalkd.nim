@@ -7,6 +7,8 @@ Status: Beta, ready for experimental usage, may not be production ready.
 
 ## Installation
 
+[![Join the chat at https://gitter.im/tormaroe/beanstalkd.nim](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/tormaroe/beanstalkd.nim?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Install this library using the [nimble](https://github.com/nim-lang/nimble) package manager:
 
     nimble install beanstalkd
