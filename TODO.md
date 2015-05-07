@@ -6,3 +6,5 @@
 * Publish package to nim-lang/packages (and test it)
 * Add it to my projects list (blog)
 * Blog about it
+
+This is just a test
