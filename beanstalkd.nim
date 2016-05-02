@@ -103,12 +103,13 @@ proc yamlToSeq(yaml: string) : seq[string] =
   result = @[]
   for line in yaml.splitLines:
     if line.startsWith "- ":
-      result.add line[2 .. -1]
+      result.add line[2 .. ^1]
 
 proc recvStats(socket: Socket) : seq[string] =
   var parts = socket.recvLine.split
   if parts[0] == "OK":
-    result = socket.recvData(parts, 1).splitLines[1 .. -2]
+    let textIn = socket.recvData(parts, 1)
+    result = textIn.splitLines[1 .. ^1]
 
 proc recvFoundJob(socket: Socket) : BeanJob =
   let parts = socket.recvLine.split
