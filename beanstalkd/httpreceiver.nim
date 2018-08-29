@@ -6,22 +6,40 @@ import
   asynchttpserver,
   asyncdispatch,
   strtabs,
-  tables
+  tables,
+  net
 
 type
   HandlerResult* = object
     response* : string
-  Handler* = proc (body:string; res: var HandlerResult): string
+    pri* : int
+    delay* : int
+    ttr* : int
+    job* : string
+    reject* : bool
+    tube* : string
+  Handler* = proc (body:string): HandlerResult
 
 var
   handlers = initTable[string, Handler]()
 
+proc put(res: HandlerResult) =
+  let
+    tube = beanstalkd.open("127.0.0.1")
+    ttr = if res.ttr == 0: 5 else: res.ttr
+  discard tube.put(res.job, res.pri, res.delay, ttr)
+  tube.quit
+
 proc handleRequest(req: Request) {.async.} =
   if handlers.hasKey(req.url.path):
-    let h = handlers[req.url.path]
-    var res = HandlerResult()
-    discard h(req.body, res)
-    await req.respond(Http200, res.response)
+    let
+      h = handlers[req.url.path]
+      res = h(req.body)
+    if res.reject:
+      await req.respond(Http406, res.response)
+    else:
+      put(res) # TODO: Handle failure
+      await req.respond(Http202, res.response)
   else:
     await req.respond(Http404, "Not Found")
 
